@@ -1,9 +1,10 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import Lenis from 'lenis'
-import { links, stats, work, projects, stack } from './data.js'
-import { reveal, TokenHeadline, SplitTitle, CountUp, Magnetic, Cursor, LayerMeter } from './components/Motion.jsx'
+import { links, work, projects, stack } from './data.js'
+import { reveal, TokenHeadline, SplitTitle, Magnetic, Cursor, LayerMeter } from './components/Motion.jsx'
 import ContactPanel from './components/ContactPanel.jsx'
+import AskAI from './components/AskAI.jsx'
 
 const Transformer = lazy(() => import('./components/Transformer.jsx'))
 const LAYERS = 7
@@ -57,7 +58,7 @@ const headline = [
   { text: 'work.', em: true },
 ]
 
-function Hero({ onContact }) {
+function Hero({ onAsk }) {
   return (
     <section id="top" className="hero">
       <motion.p className="eyebrow" {...reveal}>
@@ -74,30 +75,16 @@ function Hero({ onContact }) {
             See the work <span aria-hidden>→</span>
           </a>
         </Magnetic>
-        {links.resume ? (
-          <a href={links.resume} target="_blank" rel="noreferrer" className="link">Download résumé ↓</a>
-        ) : (
-          <button type="button" className="link" onClick={onContact}>Get in touch ↗</button>
+        <button type="button" className="link" onClick={onAsk}>
+          <span className="grad-soft">✦</span> Ask my AI about me
+        </button>
+        {links.resume && (
+          <a href={links.resume} target="_blank" rel="noreferrer" className="link">Résumé ↓</a>
         )}
       </motion.div>
       <div className="hero__hint mono" aria-hidden>
         <span className="hero__line" /> scroll to run the forward pass
       </div>
-    </section>
-  )
-}
-
-function Stats() {
-  return (
-    <section className="stats">
-      {stats.map((s, i) => (
-        <motion.div className="stat" key={s.label} {...reveal} transition={{ ...reveal.transition, delay: i * 0.08 }}>
-          <span className="stat__value">
-            <CountUp {...s} />
-          </span>
-          <span className="stat__label">{s.label}</span>
-        </motion.div>
-      ))}
     </section>
   )
 }
@@ -154,6 +141,33 @@ function Work() {
   )
 }
 
+// Browser-framed demo that only plays while the card is on screen.
+function Preview({ media, name, href }) {
+  const ref = useRef(null)
+  useEffect(() => {
+    const v = ref.current
+    if (!v || !media.video) return
+    const io = new IntersectionObserver(([e]) => (e.isIntersecting ? v.play().catch(() => {}) : v.pause()), {
+      threshold: 0.35,
+    })
+    io.observe(v)
+    return () => io.disconnect()
+  }, [media.video])
+  return (
+    <a className="preview" href={href} target="_blank" rel="noreferrer" aria-label={`Open ${name}`}>
+      <span className="preview__bar" aria-hidden>
+        <i /><i /><i />
+        <span className="mono">{href?.replace(/https?:\/\/|\/$/g, '')}</span>
+      </span>
+      {media.video ? (
+        <video ref={ref} src={media.video} poster={media.poster} muted loop playsInline preload="none" />
+      ) : (
+        <img src={media.poster} alt={`${name} screenshot`} loading="lazy" />
+      )}
+    </a>
+  )
+}
+
 function Projects() {
   return (
     <section id="projects" className="section">
@@ -166,6 +180,7 @@ function Projects() {
         {projects.map((p, i) => (
           <article className="card" key={p.name} style={{ '--i': i }}>
             <div className="card__inner">
+              <div className="card__text">
               <div className="card__top">
                 <span className="mono muted">
                   {String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
@@ -189,6 +204,8 @@ function Projects() {
                   )}
                 </div>
               </div>
+              </div>
+              {p.media && <Preview media={p.media} name={p.name} href={p.live} />}
             </div>
           </article>
         ))}
@@ -274,6 +291,7 @@ function Footer() {
 
 export default function App() {
   const [contact, setContact] = useState(false)
+  const [askOpen, setAskOpen] = useState(false)
   const [layer, setLayer] = useState(0)
   const last = useRef(0)
   const onProgress = useCallback((v) => {
@@ -285,6 +303,8 @@ export default function App() {
   }, [])
   const openContact = useCallback(() => setContact(true), [])
   const closeContact = useCallback(() => setContact(false), [])
+  const openAsk = useCallback(() => setAskOpen(true), [])
+  const closeAsk = useCallback(() => setAskOpen(false), [])
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -312,9 +332,9 @@ export default function App() {
       <LayerMeter active={layer} layers={LAYERS} />
       <Nav onContact={openContact} />
       <ContactPanel open={contact} onClose={closeContact} />
+      <AskAI open={askOpen} onOpen={openAsk} onClose={closeAsk} />
       <main>
-        <Hero onContact={openContact} />
-        <Stats />
+        <Hero onAsk={openAsk} />
         <Work />
         <Projects />
         <Stack />

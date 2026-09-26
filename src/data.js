@@ -9,13 +9,6 @@ export const links = {
   github: 'https://github.com/AnirudhGupta007',
 }
 
-export const stats = [
-  { prefix: '', value: 300, decimals: 0, suffix: '', label: 'services an agent can act in' },
-  { prefix: '', value: 88.7, decimals: 1, suffix: '%', label: 'action success rate in production' },
-  { prefix: '', value: 8, decimals: 0, suffix: '', label: 'specialist agents running in parallel' },
-  { prefix: '<', value: 400, decimals: 0, suffix: 'ms', label: 'long-term memory recall' },
-]
-
 export const work = [
   {
     company: 'Tipstat',
@@ -79,6 +72,7 @@ export const work = [
 export const projects = [
   {
     name: 'Lumen',
+    media: { poster: '/demos/lumen.jpg', video: '/demos/lumen.webm' },
     kind: 'Deep research agent',
     blurb:
       'An autonomous research agent that plans, calls 8 tools and returns cited answers in a median 29s at about $0.004 per query. A 3-provider search waterfall, per-tool Redis caching and prompt caching keep it fast and cheap.',
@@ -88,6 +82,7 @@ export const projects = [
   },
   {
     name: 'AutoClip',
+    media: { poster: '/demos/autoclip.jpg', video: '/demos/autoclip.webm' },
     kind: 'Agentic video clipper',
     blurb:
       'Turns long videos into short clips. A LangGraph map-reduce analyzes 2-minute chunks in parallel with Gemini, merges moments, then a deep-agent orchestrator retrieves them from a pgvector index and renders clips with ffmpeg in 18–56s.',
@@ -97,6 +92,7 @@ export const projects = [
   },
   {
     name: 'DawaSaathi',
+    media: { poster: '/demos/dawasaathi.jpg' },
     kind: 'Prescription assistant',
     blurb:
       'Photograph a prescription and get a Hindi explanation of every medicine, with audio, plus cheaper generic alternatives from Jan Aushadhi stores. Prescription data stays on the device.',
@@ -105,6 +101,7 @@ export const projects = [
   },
   {
     name: 'GeoTimeline',
+    media: { poster: '/demos/geotimeline.jpg', video: '/demos/geotimeline.webm' },
     kind: 'AI history explorer',
     blurb:
       'Search any historical figure and watch their life play out on an interactive map and timeline, backed by a 3-tier cache of bundled data, Upstash Redis and an LLM.',

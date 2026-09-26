@@ -118,7 +118,7 @@ void main(){
   float act = 1.0 - smoothstep(0.0, 1.3, abs(aLayer + 0.5 - uActive));
   float phase = fract(uTime * (0.25 + aSeed * 0.2) + aSeed);
   float head = smoothstep(0.14, 0.0, abs(aT - phase));
-  vAlpha = aW * (0.09 + 0.3 * act) + head * aW * (0.12 + 0.85 * act);
+  vAlpha = aW * (0.13 + 0.3 * act) + head * aW * (0.12 + 0.85 * act);
   vColor = mix(mix(ASH, EMBER, act), AMBER, aT * act);
   vColor = mix(vColor, HOT, head * act);
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
@@ -144,7 +144,7 @@ void main(){
   vTw = 0.75 + 0.25 * sin(uTime * 2.0 + aSeed * 40.0);
   vec4 mv = modelViewMatrix * vec4(position, 1.0);
   gl_Position = projectionMatrix * mv;
-  gl_PointSize = uSize * (0.55 + vAct * 0.9) * uPixelRatio / -mv.z;
+  gl_PointSize = uSize * (0.8 + vAct * 0.7) * uPixelRatio / -mv.z;
 }`
 
 const nodeFragment = /* glsl */ `
@@ -157,7 +157,7 @@ void main(){
   float core = smoothstep(0.18, 0.0, d);
   float halo = smoothstep(0.5, 0.0, d) * 0.35;
   vec3 col = mix(mix(ASH, AMBER, 0.35), mix(EMBER, HOT, core), vAct);
-  float a = (core + halo * (0.3 + vAct)) * (0.5 + 0.5 * vAct) * vTw;
+  float a = (core + halo * (0.3 + vAct)) * (0.72 + 0.28 * vAct) * vTw;
   gl_FragColor = vec4(col, a * uOpacity);
 }`
 

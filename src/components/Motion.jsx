@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { animate, motion, useInView, useMotionValue, useSpring } from 'motion/react'
+import { motion, useMotionValue, useSpring } from 'motion/react'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -75,24 +75,6 @@ export function SplitTitle({ parts, className, as: Tag = 'h2' }) {
         ),
       )}
     </MotionTag>
-  )
-}
-
-export function CountUp({ value, decimals = 0, prefix = '', suffix = '' }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-10% 0px' })
-  const [n, setN] = useState(0)
-  useEffect(() => {
-    if (!inView) return
-    const c = animate(0, value, { duration: 1.8, ease: EASE, onUpdate: setN })
-    return () => c.stop()
-  }, [inView, value])
-  return (
-    <span ref={ref}>
-      {prefix}
-      {n.toFixed(decimals)}
-      {suffix}
-    </span>
   )
 }
 
