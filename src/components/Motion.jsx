@@ -121,19 +121,3 @@ export function Cursor() {
   if (!on) return null
   return <motion.div className={`cursor ${hover ? 'cursor--hover' : ''}`} style={{ x, y }} aria-hidden />
 }
-
-// Vertical readout of which transformer layer the forward pass is on.
-export function LayerMeter({ active, layers }) {
-  const idx = Math.round(active)
-  return (
-    <div className="meter" aria-hidden>
-      <span className="meter__label mono">forward pass</span>
-      {Array.from({ length: layers }, (_, i) => layers - 1 - i).map((l) => (
-        <span key={l} className={`meter__tick ${l === idx ? 'is-on' : ''} ${l < idx ? 'is-done' : ''}`}>
-          <i />
-          <span className="mono">L{l}</span>
-        </span>
-      ))}
-    </div>
-  )
-}

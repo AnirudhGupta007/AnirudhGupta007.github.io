@@ -92,7 +92,7 @@ export const projects = [
   },
   {
     name: 'DawaSaathi',
-    media: { poster: '/demos/dawasaathi.jpg' },
+    media: { poster: '/demos/dawasaathi.jpg', video: '/demos/dawasaathi.webm' },
     kind: 'Prescription assistant',
     blurb:
       'Photograph a prescription and get a Hindi explanation of every medicine, with audio, plus cheaper generic alternatives from Jan Aushadhi stores. Prescription data stays on the device.',
@@ -112,8 +112,8 @@ export const projects = [
 ]
 
 export const stack = [
-  { group: 'Agents & LLMs', items: ['LangGraph', 'LangChain', 'LlamaIndex', 'MCP / FastMCP', 'Multi-agent systems', 'ReAct', 'Agentic RAG', 'Evals', 'Guardrails', 'Human-in-the-loop', 'LiteLLM', 'OpenRouter', 'LangSmith'] },
-  { group: 'Memory & Retrieval', items: ['Qdrant', 'pgvector', 'FAISS', 'Neo4j', 'Graphiti', 'Mem0', 'Embeddings', 'Semantic search'] },
-  { group: 'Backend & Cloud', items: ['Python', 'FastAPI', 'SQL', 'PostgreSQL', 'Redis', 'MongoDB', 'Docker', 'Kubernetes', 'AWS', 'GCP Vertex AI', 'Kafka', 'NATS', 'OpenTelemetry'] },
-  { group: 'ML', items: ['PyTorch', 'HuggingFace', 'Fine-tuning', 'QLoRA', 'Quantization', 'Multimodal'] },
+  { group: 'AI & Agents', items: ['LangGraph', 'LangChain', 'LlamaIndex', 'MCP', 'Multi-agent systems', 'RAG', 'Evals & guardrails'] },
+  { group: 'Memory & Search', items: ['Qdrant', 'pgvector', 'FAISS', 'Neo4j', 'Mem0', 'Embeddings'] },
+  { group: 'Backend & Cloud', items: ['Python', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'Kubernetes', 'AWS', 'GCP'] },
+  { group: 'ML', items: ['PyTorch', 'HuggingFace', 'Fine-tuning', 'QLoRA', 'Quantization'] },
 ]

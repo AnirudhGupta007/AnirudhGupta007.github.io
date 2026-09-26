@@ -2,12 +2,11 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import Lenis from 'lenis'
 import { links, work, projects, stack } from './data.js'
-import { reveal, TokenHeadline, SplitTitle, Magnetic, Cursor, LayerMeter } from './components/Motion.jsx'
+import { reveal, TokenHeadline, SplitTitle, Magnetic, Cursor } from './components/Motion.jsx'
 import ContactPanel from './components/ContactPanel.jsx'
 import AskAI from './components/AskAI.jsx'
 
-const Transformer = lazy(() => import('./components/Transformer.jsx'))
-const LAYERS = 7
+const NeuralNet = lazy(() => import('./components/NeuralNet.jsx'))
 
 let lenis
 function scrollTo(e, id) {
@@ -40,7 +39,7 @@ function Nav({ onContact }) {
         )}
       </nav>
       <Magnetic>
-        <button type="button" className="pill pill--ember" onClick={onContact}>
+        <button type="button" className="pill pill--accent" onClick={onContact}>
           <span className="pulse" /> Say hi
         </button>
       </Magnetic>
@@ -82,9 +81,6 @@ function Hero({ onAsk }) {
           <a href={links.resume} target="_blank" rel="noreferrer" className="link">Résumé ↓</a>
         )}
       </motion.div>
-      <div className="hero__hint mono" aria-hidden>
-        <span className="hero__line" /> scroll to run the forward pass
-      </div>
     </section>
   )
 }
@@ -214,32 +210,23 @@ function Projects() {
   )
 }
 
-function Marquee({ items, reverse }) {
-  const row = [...items, ...items]
-  return (
-    <div className={`marquee ${reverse ? 'marquee--rev' : ''}`}>
-      <div className="marquee__track">
-        {row.map((t, i) => (
-          <span key={i} className={i % 2 ? 'marquee__item grad-soft' : 'marquee__item'}>
-            {t}
-            <i aria-hidden>✦</i>
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 function Stack() {
   return (
-    <section id="stack" className="section section--wide">
-      <div className="section__head section__head--inset">
-        <motion.p className="eyebrow" {...reveal}>03 — Stack</motion.p>
-        <SplitTitle className="section__title" parts={[{ text: 'Tools I reach for', br: true }, { text: 'every day.', em: true }]} />
+    <section id="stack" className="section">
+      <div className="section__head">
+        <motion.p className="eyebrow" {...reveal}>03 — Skills</motion.p>
+        <SplitTitle className="section__title" parts={[{ text: 'What I work', br: true }, { text: 'with.', em: true }]} />
       </div>
-      <div className="marquees">
+      <div className="skills">
         {stack.map((g, i) => (
-          <Marquee key={g.group} items={g.items} reverse={i % 2 === 1} />
+          <motion.div className="skills__group" key={g.group} {...reveal} transition={{ ...reveal.transition, delay: i * 0.08 }}>
+            <h3 className="mono">{g.group}</h3>
+            <ul>
+              {g.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </motion.div>
         ))}
       </div>
       <motion.p className="edu muted" {...reveal}>
@@ -256,7 +243,7 @@ function Contact({ onContact }) {
       <SplitTitle className="contact__title" parts={[{ text: 'Have an agent that', br: true }, { text: 'needs to ship?', em: true }]} />
       <motion.div className="contact__actions" {...reveal}>
         <Magnetic>
-          <button type="button" className="pill pill--ember pill--big" onClick={onContact}>
+          <button type="button" className="pill pill--accent pill--big" onClick={onContact}>
             <span className="pulse" /> Say hi
           </button>
         </Magnetic>
@@ -280,7 +267,7 @@ function Footer() {
     <footer className="footer">
       <div className="footer__row mono muted">
         <span>© {new Date().getFullYear()} Anirudh Gupta</span>
-        <span>7 layers · 3 heads · rendered live in WebGL</span>
+        <span>Neural net rendered live in WebGL</span>
       </div>
       <div className="footer__word" aria-hidden>
         anirudh
@@ -292,15 +279,6 @@ function Footer() {
 export default function App() {
   const [contact, setContact] = useState(false)
   const [askOpen, setAskOpen] = useState(false)
-  const [layer, setLayer] = useState(0)
-  const last = useRef(0)
-  const onProgress = useCallback((v) => {
-    const r = Math.max(0, Math.min(LAYERS - 1, Math.round(v)))
-    if (r !== last.current) {
-      last.current = r
-      setLayer(r)
-    }
-  }, [])
   const openContact = useCallback(() => setContact(true), [])
   const closeContact = useCallback(() => setContact(false), [])
   const openAsk = useCallback(() => setAskOpen(true), [])
@@ -324,12 +302,11 @@ export default function App() {
   return (
     <>
       <Suspense fallback={null}>
-        <Transformer onProgress={onProgress} />
+        <NeuralNet />
       </Suspense>
       <div className="vignette" aria-hidden />
       <div className="grain" aria-hidden />
       <Cursor />
-      <LayerMeter active={layer} layers={LAYERS} />
       <Nav onContact={openContact} />
       <ContactPanel open={contact} onClose={closeContact} />
       <AskAI open={askOpen} onOpen={openAsk} onClose={closeAsk} />
