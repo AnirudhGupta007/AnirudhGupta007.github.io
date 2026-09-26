@@ -1,14 +1,19 @@
 export const links = {
   email: 'anirudhgupta281@gmail.com',
+  phone: '+91 98137 24305',
+  phoneHref: 'tel:+919813724305',
+  whatsapp: 'https://wa.me/919813724305',
+  // Paste the Google Drive share link here; the Resume buttons appear once it is set.
+  resume: '',
   linkedin: 'https://www.linkedin.com/in/anirudhgupta00',
   github: 'https://github.com/AnirudhGupta007',
 }
 
 export const stats = [
-  { value: '300', label: 'services an agent can act in' },
-  { value: '88.7%', label: 'action success rate in production' },
-  { value: '8', label: 'specialist agents running in parallel' },
-  { value: '<400ms', label: 'long-term memory recall' },
+  { prefix: '', value: 300, decimals: 0, suffix: '', label: 'services an agent can act in' },
+  { prefix: '', value: 88.7, decimals: 1, suffix: '%', label: 'action success rate in production' },
+  { prefix: '', value: 8, decimals: 0, suffix: '', label: 'specialist agents running in parallel' },
+  { prefix: '<', value: 400, decimals: 0, suffix: 'ms', label: 'long-term memory recall' },
 ]
 
 export const work = [
