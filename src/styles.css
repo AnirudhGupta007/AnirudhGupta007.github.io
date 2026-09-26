@@ -143,7 +143,6 @@ main, .footer { position: relative; z-index: 2; }
   font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--violet);
 }
-.eyebrow__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
 .hero__title, .section__title, .contact__title, .job h3, .product h4, .card__name, .stat__value {
   font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em;
 }
@@ -159,6 +158,18 @@ main, .footer { position: relative; z-index: 2; }
   animation: blink 1s steps(1) infinite;
 }
 @keyframes blink { 50% { opacity: 0; } }
+
+/* Availability */
+.hero__top { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.status {
+  display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px 8px 14px; border-radius: 999px;
+  background: rgba(94, 224, 138, 0.08); color: #b9f5cc; font-size: 0.85rem;
+  transition: background 0.3s, transform 0.35s var(--spring);
+}
+button.status:hover { background: rgba(94, 224, 138, 0.16); transform: translateY(-2px); }
+.status i { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #5ee08a; box-shadow: 0 0 10px #5ee08a; }
+.status i::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #5ee08a; animation: ping 1.8s var(--ease) infinite; }
+.panel__avail { color: #b9f5cc; font-size: 0.88rem; margin: -6px 0 14px; }
 
 /* Hero */
 .hero {

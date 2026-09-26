@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { links } from '../data.js'
+import { availability, links } from '../data.js'
 
 export default function ContactPanel({ open, onClose }) {
   const [copied, setCopied] = useState(false)
@@ -55,6 +55,8 @@ export default function ContactPanel({ open, onClose }) {
                 <i /> Bengaluru · IST
               </span>
             </div>
+
+            <p className="panel__avail">{availability}</p>
 
             <div className="panel__mail">
               <a href={`mailto:${links.email}`}>{links.email}</a>

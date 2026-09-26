@@ -1,3 +1,5 @@
+export const availability = 'Available for projects and full-time roles · Remote or on-site'
+
 export const links = {
   email: 'anirudhgupta281@gmail.com',
   phone: '+91 98137 24305',

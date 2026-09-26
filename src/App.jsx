@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import Lenis from 'lenis'
-import { links, work, projects, stack } from './data.js'
+import { availability, links, work, projects, stack } from './data.js'
 import { reveal, TokenHeadline, SplitTitle, Magnetic, Cursor } from './components/Motion.jsx'
 import ContactPanel from './components/ContactPanel.jsx'
 import AskAI from './components/AskAI.jsx'
@@ -57,12 +57,15 @@ const headline = [
   { text: 'work.', em: true },
 ]
 
-function Hero({ onAsk }) {
+function Hero({ onAsk, onContact }) {
   return (
     <section id="top" className="hero">
-      <motion.p className="eyebrow" {...reveal}>
-        <span className="eyebrow__dot" /> AI Product Engineer · Bengaluru
-      </motion.p>
+      <motion.div className="hero__top" {...reveal}>
+        <p className="eyebrow">AI Product Engineer · Bengaluru</p>
+        <button type="button" className="status" onClick={onContact}>
+          <i /> {availability}
+        </button>
+      </motion.div>
       <TokenHeadline className="hero__title" tokens={headline} />
       <motion.p className="hero__sub" {...reveal} transition={{ ...reveal.transition, delay: 1.3 }}>
         Multi-agent systems, long-term memory, agentic RAG and tool execution, shipped as products people
@@ -242,6 +245,9 @@ function Contact({ onContact }) {
       <div className="contact__card glass">
         <motion.p className="eyebrow" {...reveal}>04 — Contact</motion.p>
         <SplitTitle className="contact__title" parts={[{ text: 'Have an agent that', br: true }, { text: 'needs to ship?', em: true }]} />
+        <motion.p className="status status--static" {...reveal}>
+          <i /> {availability}
+        </motion.p>
         <motion.div className="contact__actions" {...reveal}>
           <Magnetic>
             <button type="button" className="pill pill--accent pill--big" onClick={onContact}>
@@ -313,7 +319,7 @@ export default function App() {
       <ContactPanel open={contact} onClose={closeContact} />
       <AskAI open={askOpen} onOpen={openAsk} onClose={closeAsk} />
       <main>
-        <Hero onAsk={openAsk} />
+        <Hero onAsk={openAsk} onContact={openContact} />
         <Work />
         <Projects />
         <Stack />
