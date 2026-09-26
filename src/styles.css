@@ -177,10 +177,19 @@ main, .footer { position: relative; z-index: 2; }
 .section__head--inset { max-width: var(--max); margin-left: auto; margin-right: auto; padding: 0 var(--gutter); }
 .section__title { font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; }
 
+/* Frosted glass: the network stays visible behind, but blurred, so text reads cleanly */
+.glass {
+  background: rgba(9, 11, 19, 0.8);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  border-radius: 28px;
+}
+
 /* Experience */
 .job {
-  display: grid; grid-template-columns: 240px 1fr; gap: 48px;
-  padding: 48px 0; border-top: 1px solid var(--faint);
+  display: grid; grid-template-columns: 220px 1fr; gap: 48px;
+  padding: clamp(24px, 4vw, 48px); margin-bottom: 20px;
 }
 .job__meta { position: sticky; top: 110px; align-self: start; display: flex; flex-direction: column; gap: 4px; }
 .job__meta h3 { font-size: 2.3rem; line-height: 1.1; }
@@ -291,8 +300,8 @@ main, .footer { position: relative; z-index: 2; }
 .ask__form button[type='submit']:not(:disabled):hover { transform: scale(1.06); }
 
 /* Skills */
-.skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
-.skills__group { display: flex; flex-direction: column; gap: 16px; padding-top: 20px; border-top: 1px solid var(--faint); }
+.skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; padding: clamp(24px, 4vw, 44px); }
+.skills__group { display: flex; flex-direction: column; gap: 16px; }
 .skills__group h3 { color: var(--cyan); font-weight: 500; text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72rem; }
 .skills__group ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .skills__group li { color: var(--soft); font-size: 1.02rem; transition: color 0.25s, transform 0.35s var(--spring); }
@@ -301,9 +310,10 @@ main, .footer { position: relative; z-index: 2; }
 
 /* Contact section */
 .contact {
-  max-width: var(--max); margin: 0 auto; padding: 180px var(--gutter) 120px;
-  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 30px;
+  max-width: var(--max); margin: 0 auto; padding: 140px var(--gutter) 100px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
 }
+.contact__card { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: clamp(40px, 7vw, 80px) clamp(20px, 5vw, 64px); }
 .contact__title { font-size: clamp(2.8rem, 7.5vw, 6.4rem); line-height: 1; }
 .contact__actions { display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .contact__actions .pill { margin-bottom: 10px; }
@@ -352,7 +362,7 @@ main, .footer { position: relative; z-index: 2; }
 
 /* Responsive */
 @media (max-width: 900px) {
-  .job { grid-template-columns: 1fr; gap: 20px; }
+  .job { grid-template-columns: 1fr; gap: 20px; border-radius: 24px; }
   .job__meta { position: static; }
   .skills { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
   .card { position: relative; top: auto; }

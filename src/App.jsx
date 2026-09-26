@@ -104,7 +104,7 @@ function Work() {
       </div>
 
       {work.map((job) => (
-        <motion.article className="job" key={job.company} {...reveal}>
+        <motion.article className="job glass" key={job.company} {...reveal}>
           <div className="job__meta">
             <h3>{job.company}</h3>
             <p>{job.role}</p>
@@ -217,7 +217,7 @@ function Stack() {
         <motion.p className="eyebrow" {...reveal}>03 — Skills</motion.p>
         <SplitTitle className="section__title" parts={[{ text: 'What I work', br: true }, { text: 'with.', em: true }]} />
       </div>
-      <div className="skills">
+      <div className="skills glass">
         {stack.map((g, i) => (
           <motion.div className="skills__group" key={g.group} {...reveal} transition={{ ...reveal.transition, delay: i * 0.08 }}>
             <h3 className="mono">{g.group}</h3>
@@ -239,25 +239,27 @@ function Stack() {
 function Contact({ onContact }) {
   return (
     <section id="contact" className="contact">
-      <motion.p className="eyebrow" {...reveal}>04 — Contact</motion.p>
-      <SplitTitle className="contact__title" parts={[{ text: 'Have an agent that', br: true }, { text: 'needs to ship?', em: true }]} />
-      <motion.div className="contact__actions" {...reveal}>
-        <Magnetic>
-          <button type="button" className="pill pill--accent pill--big" onClick={onContact}>
-            <span className="pulse" /> Say hi
-          </button>
-        </Magnetic>
-        <a href={`mailto:${links.email}`} className="link">{links.email}</a>
-        <a href={links.phoneHref} className="link">{links.phone}</a>
-      </motion.div>
-      <motion.div className="contact__links" {...reveal}>
-        <a href={links.linkedin} target="_blank" rel="noreferrer" className="link">LinkedIn ↗</a>
-        <a href={links.github} target="_blank" rel="noreferrer" className="link">GitHub ↗</a>
-        <a href={links.whatsapp} target="_blank" rel="noreferrer" className="link">WhatsApp ↗</a>
-        {links.resume && (
-          <a href={links.resume} target="_blank" rel="noreferrer" className="link">Résumé ↓</a>
-        )}
-      </motion.div>
+      <div className="contact__card glass">
+        <motion.p className="eyebrow" {...reveal}>04 — Contact</motion.p>
+        <SplitTitle className="contact__title" parts={[{ text: 'Have an agent that', br: true }, { text: 'needs to ship?', em: true }]} />
+        <motion.div className="contact__actions" {...reveal}>
+          <Magnetic>
+            <button type="button" className="pill pill--accent pill--big" onClick={onContact}>
+              <span className="pulse" /> Say hi
+            </button>
+          </Magnetic>
+          <a href={`mailto:${links.email}`} className="link">{links.email}</a>
+          <a href={links.phoneHref} className="link">{links.phone}</a>
+        </motion.div>
+        <motion.div className="contact__links" {...reveal}>
+          <a href={links.linkedin} target="_blank" rel="noreferrer" className="link">LinkedIn ↗</a>
+          <a href={links.github} target="_blank" rel="noreferrer" className="link">GitHub ↗</a>
+          <a href={links.whatsapp} target="_blank" rel="noreferrer" className="link">WhatsApp ↗</a>
+          {links.resume && (
+            <a href={links.resume} target="_blank" rel="noreferrer" className="link">Résumé ↓</a>
+          )}
+        </motion.div>
+      </div>
     </section>
   )
 }
