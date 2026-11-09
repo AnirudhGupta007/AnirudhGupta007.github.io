@@ -4,7 +4,6 @@ import Lenis from 'lenis'
 import { availability, links, work, projects, facts, stack } from './data.js'
 import { reveal, SplitTitle } from './components/Motion.jsx'
 import ContactPanel from './components/ContactPanel.jsx'
-import AskAI from './components/AskAI.jsx'
 import Year from './components/Year.jsx'
 
 let lenis
@@ -41,7 +40,7 @@ function Nav({ onContact }) {
   )
 }
 
-function Hero({ onAsk }) {
+function Hero() {
   return (
     <section id="about" className="hero">
       <div className="wrap">
@@ -67,7 +66,6 @@ function Hero({ onAsk }) {
         {links.resume && (
           <a href={links.resume} target="_blank" rel="noreferrer" className="btn btn--line">Download résumé</a>
         )}
-        <button type="button" className="textlink" onClick={onAsk}>Ask my AI about me</button>
       </motion.div>
       <motion.dl className="facts" {...reveal} transition={{ ...reveal.transition, delay: 0.45 }}>
         {facts.map((f) => (
@@ -245,11 +243,8 @@ function Contact({ onContact }) {
 
 export default function App() {
   const [contact, setContact] = useState(false)
-  const [askOpen, setAskOpen] = useState(false)
   const openContact = useCallback(() => setContact(true), [])
   const closeContact = useCallback(() => setContact(false), [])
-  const openAsk = useCallback(() => setAskOpen(true), [])
-  const closeAsk = useCallback(() => setAskOpen(false), [])
 
   // Smooth scrolling, off for people who prefer reduced motion.
   useEffect(() => {
@@ -270,9 +265,8 @@ export default function App() {
     <>
       <Nav onContact={openContact} />
       <ContactPanel open={contact} onClose={closeContact} />
-      <AskAI open={askOpen} onOpen={openAsk} onClose={closeAsk} />
       <main>
-        <Hero onAsk={openAsk} />
+        <Hero />
         <Experience />
         <Projects />
         <Skills />
