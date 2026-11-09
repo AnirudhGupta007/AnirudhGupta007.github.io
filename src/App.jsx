@@ -97,10 +97,12 @@ function Demo({ media, name }) {
   const ref = useRef(null)
   useEffect(() => {
     const v = ref.current
+    if (!v) return
     const io = new IntersectionObserver(([e]) => (e.isIntersecting ? v.play().catch(() => {}) : v.pause()), { threshold: 0.35 })
     io.observe(v)
     return () => io.disconnect()
   }, [])
+  if (!media.video) return <img className="study__demo" src={media.poster} alt={`${name} screenshot`} loading="lazy" />
   return <video className="study__demo" ref={ref} src={media.video} poster={media.poster} muted loop playsInline preload="none" aria-label={`${name} demo`} />
 }
 

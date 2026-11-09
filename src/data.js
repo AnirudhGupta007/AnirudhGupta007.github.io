@@ -97,6 +97,7 @@ export const projects = [
   {
     name: 'Proofwork',
     kind: 'AI hiring assessments',
+    media: { poster: '/demos/proofwork.jpg' },
     goal: 'Replace trivia-heavy coding interviews with real work trials, and give reviewers evidence instead of a gut feeling.',
     how: 'Paste a job description and an LLM generates a role-specific work trial. The candidate gets an invite link and works in a hosted dev workspace with an AI coding agent and a live app preview. On submit, the diff, tests, commit history and logs are evaluated into a scored PDF report.',
     hard: 'Judging how someone works with an AI agent, not just the final code: capturing commit checkpoints, test runs and agent activity as evidence, keeping hidden evals out of the candidate repo, and letting a human override the score.',
@@ -106,6 +107,7 @@ export const projects = [
       'Human review and override on every report',
     ],
     stack: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'Daytona', 'OpenCode', 'GPT', 'DeepSeek'],
+    code: 'https://github.com/AnirudhGupta007/proofwork',
   },
   {
     name: 'Lumen',
