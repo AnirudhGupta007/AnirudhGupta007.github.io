@@ -1,4 +1,4 @@
-export const availability = 'Available for projects and full-time roles · Remote or on-site'
+export const availability = 'Open to AI Engineer roles · Remote or on-site'
 
 export const links = {
   email: 'anirudhgupta281@gmail.com',
@@ -22,12 +22,16 @@ export const work = [
         name: 'Ozyn',
         tagline: 'Multi-agent AI assistant for business apps',
         url: 'https://ozyn.ai/',
+        intro:
+          'Sole AI engineer on a 3-person team. I built the layers that take a plain-English request and turn it into finished work across business apps, with the user approving risky steps.',
         points: [
-          'An assistant that sends emails, updates the CRM and files tickets by picking the right action across 300 connected services, with an 88.7% success rate.',
-          'A planner that breaks one plain-English request into an ordered task list run by 8 specialist agents in parallel, with human approval where it matters.',
-          'Long-term memory on Neo4j/Graphiti and Qdrant/Mem0: 4-way hybrid search with re-ranking in under 400ms, and memories that fade over 30 days.',
-          'A scheduler for recurring and event-triggered jobs that starts tasks in a median 0.3s and never runs a task twice.',
-          'A deep-research agent that plans, queries 4 search providers with failover and writes one cited answer; won 6 of 8 head-to-head quality tests.',
+          'Receptionist and context layer: an LLM triages every message into the fast, deep or multi-step path and builds the turn\'s context in one batched memory call instead of 4 (−75%). Fast-lane search runs 80–95% faster.',
+          'Planner: splits a big request into steps, runs up to 3 independent steps at once and waits on the ones that depend on others. Cheap GLM Flash plans routine work; the heavier GLM handles only the hard cases.',
+          'Executor (LangChain + Jev): replaced LLM-based tool picking with Jev, a typed decision model. Model calls fell 43%, latency 35%, cost ~45% and tool-schema prompt size 48–71%, while correct-tool rate rose from 89% to 100%.',
+          'MCP server (FastMCP): 599 tools across 16 native apps and 222 Composio apps, with JWT auth, tenant isolation, rate limiting, audit logging, idempotency and human approval on every write.',
+          'Browser agent (Anchor): Jev picks page elements, GLM plans, an OpenAI model reads screenshots and capped Holo3 vision is the fallback. Passed 80% of 15 hard real-site tasks (shopping, travel, payments) against 60–73% baselines, with 0% safety violations.',
+          'Deep research (Deep Agents + Monid.ai): fixed a framework overhead that consumed ~50% of tool calls, so that budget now goes to searching and reading. Blind-judged answer quality 74.5%, 9% above the next-best model.',
+          'Memory (Neo4j/Graphiti + Qdrant/Mem0): one batched recall replaced four per-turn lookups, a 75% cut in memory calls.',
         ],
       },
       {
@@ -35,8 +39,8 @@ export const work = [
         tagline: 'AI B2B sourcing engine',
         url: 'https://alvoff.ai/',
         points: [
-          'Query understanding that decides when to ask a clarifying question instead of guessing: a strict-JSON CLARIFY/CONTINUE gate on every search.',
-          'An event-discovery workflow that finds upcoming trade shows across 4 sources, extracts structured records with an LLM, then verifies dates, venue and organizer.',
+          'Jev, the query router: a fine-tuned router that classifies every buyer query across 25 intents and returns a strict-JSON CLARIFY/CONTINUE decision before search, cutting routing cost from $3,450 to $79 per 1M calls.',
+          'Conversation memory and flow: summarises older turns to keep prompts bounded, persists buyer preferences across sessions and resolves follow-ups like "cheaper ones" against earlier results.',
         ],
       },
       {
@@ -71,46 +75,79 @@ export const work = [
   },
 ]
 
+// Case studies, each framed around its goal. Every number is measured, not estimated.
 export const projects = [
   {
-    name: 'Lumen',
-    media: { poster: '/demos/lumen.jpg', video: '/demos/lumen.webm' },
-    kind: 'Deep research agent',
-    blurb:
-      'An autonomous research agent that plans, calls 8 tools and returns cited answers in a median 29s at about $0.004 per query. A 3-provider search waterfall, per-tool Redis caching and prompt caching keep it fast and cheap.',
-    stack: ['LangGraph', 'Deep Agents', 'FastAPI', 'Redis', 'AWS', 'GitHub Actions'],
-    live: 'https://dhpnx11ivp2cy.cloudfront.net/',
-    code: 'https://github.com/AnirudhGupta007/deep-research-platform',
-  },
-  {
     name: 'AutoClip',
-    media: { poster: '/demos/autoclip.jpg', video: '/demos/autoclip.webm' },
     kind: 'Agentic video clipper',
-    blurb:
-      'Turns long videos into short clips. A LangGraph map-reduce analyzes 2-minute chunks in parallel with Gemini, merges moments, then a deep-agent orchestrator retrieves them from a pgvector index and renders clips with ffmpeg in 18–56s.',
-    stack: ['LangGraph', 'Gemini 2.5', 'pgvector', 'BGE-M3', 'ffmpeg', 'AWS'],
+    media: { poster: '/demos/autoclip.jpg', video: '/demos/autoclip.webm' },
+    goal: 'Turn a long video into the short clips a human editor would actually pick, and prove it with an eval instead of a demo.',
+    how: 'You chat with the video: "4 funny clips under 30 seconds, 9:16". A deep-agent orchestrator splits the video into 2-minute chunks analysed in parallel, indexes every moment in pgvector so it can search by meaning, then cuts, reframes and captions the clips with ffmpeg.',
+    hard: 'Knowing whether the clips are any good. I hand-labelled the best moments in a 98-minute film and a conference talk, then fixed the pipeline against those labels instead of trusting how the output looked.',
+    result: [
+      'Moments found in the film: 37% → 83%',
+      'Transcript coverage: 3% → 96%',
+      "Clips matching a human's top 3: 0/6 → 2/6",
+      'Full analysis of a 98-minute film: about $0.59',
+    ],
+    stack: ['LangGraph', 'Deep Agents', 'LlamaIndex', 'pgvector', 'Gemini 2.5', 'ffmpeg', 'AWS'],
     live: 'https://15.206.112.113',
     code: 'https://github.com/AnirudhGupta007/autoclip-ai',
   },
   {
+    name: 'Proofwork',
+    kind: 'AI hiring assessments',
+    goal: 'Replace trivia-heavy coding interviews with real work trials, and give reviewers evidence instead of a gut feeling.',
+    how: 'Paste a job description and an LLM generates a role-specific work trial. The candidate gets an invite link and works in a hosted dev workspace with an AI coding agent and a live app preview. On submit, the diff, tests, commit history and logs are evaluated into a scored PDF report.',
+    hard: 'Judging how someone works with an AI agent, not just the final code: capturing commit checkpoints, test runs and agent activity as evidence, keeping hidden evals out of the candidate repo, and letting a human override the score.',
+    result: [
+      'Full loop: job description → work trial → workspace → scored report',
+      'Candidate comparison table and custom scoring rubrics',
+      'Human review and override on every report',
+    ],
+    stack: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'Daytona', 'OpenCode', 'GPT', 'DeepSeek'],
+  },
+  {
+    name: 'Lumen',
+    kind: 'Deep research agent',
+    media: { poster: '/demos/lumen.jpg', video: '/demos/lumen.webm' },
+    goal: 'Answer research questions with current facts and show exactly where each one came from, cheaply enough to run every day.',
+    how: 'A LangGraph deep agent plans the question, calls 8 tools through a 3-provider search waterfall and writes one answer with citations.',
+    hard: 'Speed and cost on a multi-step agent: per-tool Redis caching, prompt caching and provider failover, deployed on AWS through GitHub Actions.',
+    result: ['Median 29 seconds per answer', 'About $0.004 per query'],
+    stack: ['LangGraph', 'Deep Agents', 'FastAPI', 'Redis', 'AWS', 'GitHub Actions'],
+    code: 'https://github.com/AnirudhGupta007/deep-research-platform',
+  },
+  {
     name: 'DawaSaathi',
-    media: { poster: '/demos/dawasaathi.jpg', video: '/demos/dawasaathi.webm' },
     kind: 'Prescription assistant',
-    blurb:
-      'Photograph a prescription and get a Hindi explanation of every medicine, with audio, plus cheaper generic alternatives from Jan Aushadhi stores. Prescription data stays on the device.',
+    media: { poster: '/demos/dawasaathi.jpg', video: '/demos/dawasaathi.webm' },
+    goal: 'Help patients understand their prescription in their own language, and spend less on it.',
+    how: 'Photograph a prescription. A vision LLM reads it and explains every medicine in Hindi, with audio, alongside cheaper generic alternatives from Jan Aushadhi stores.',
+    hard: 'Keeping medical data private: the prescription stays on the device.',
+    result: ['Live on Vercel', 'Prescription data stays on the device'],
     stack: ['Vision LLM', 'Hindi TTS', 'React', 'Vercel'],
     live: 'https://dawa-saathi.vercel.app',
   },
   {
     name: 'GeoTimeline',
-    media: { poster: '/demos/geotimeline.jpg', video: '/demos/geotimeline.webm' },
     kind: 'AI history explorer',
-    blurb:
-      'Search any historical figure and watch their life play out on an interactive map and timeline, backed by a 3-tier cache of bundled data, Upstash Redis and an LLM.',
+    media: { poster: '/demos/geotimeline.jpg', video: '/demos/geotimeline.webm' },
+    goal: "Make a historical figure's life easy to follow by showing it on a map instead of a list of dates.",
+    how: 'Search a name and watch where that person lived, travelled and worked play out on an interactive map and timeline.',
+    hard: 'Answering fast without calling the LLM every time: a 3-tier cache of bundled data, Upstash Redis, then the LLM.',
+    result: ['Live on Vercel'],
     stack: ['React 19', 'Leaflet', 'Motion', 'Upstash Redis', 'Vercel'],
     live: 'https://geotimeline.vercel.app',
     code: 'https://github.com/AnirudhGupta007/MAp',
   },
+]
+
+// Three quick facts under the intro.
+export const facts = [
+  { value: '599', label: 'tools across 238 apps on the MCP server I built' },
+  { value: '89% → 100%', label: 'correct-tool rate after replacing LLM tool picking' },
+  { value: '4', label: 'side projects shipped end to end' },
 ]
 
 export const stack = [

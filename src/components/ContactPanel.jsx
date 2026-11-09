@@ -82,7 +82,7 @@ export default function ContactPanel({ open, onClose }) {
             </ul>
 
             {links.resume && (
-              <a href={links.resume} target="_blank" rel="noreferrer" className="pill pill--accent panel__resume">
+              <a href={links.resume} target="_blank" rel="noreferrer" className="btn btn--accent panel__resume">
                 Download résumé <span aria-hidden>↓</span>
               </a>
             )}

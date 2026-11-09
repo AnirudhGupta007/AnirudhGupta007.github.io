@@ -14,22 +14,33 @@ export const reveal = {
 // tokens: [{ text, em?, br? }]
 export function TokenHeadline({ tokens, className, delay = 450, speed = 120 }) {
   const [shown, setShown] = useState(0)
+  const ref = useRef(null)
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setShown(tokens.length)
       return
     }
-    let i = 0
-    let timer = setTimeout(function tick() {
-      i += 1
-      setShown(i)
-      if (i < tokens.length) timer = setTimeout(tick, speed + Math.random() * 90)
-    }, delay)
-    return () => clearTimeout(timer)
+    // Start typing only once the headline is on screen (it sits below the intro orb).
+    let timer
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return
+      io.disconnect()
+      let i = 0
+      timer = setTimeout(function tick() {
+        i += 1
+        setShown(i)
+        if (i < tokens.length) timer = setTimeout(tick, speed + Math.random() * 90)
+      }, delay)
+    }, { threshold: 0.4 })
+    io.observe(ref.current)
+    return () => {
+      io.disconnect()
+      clearTimeout(timer)
+    }
   }, [tokens, delay, speed])
 
   return (
-    <h1 className={className} aria-label={tokens.map((t) => t.text).join('')}>
+    <h1 ref={ref} className={className} aria-label={tokens.map((t) => t.text).join('')}>
       {tokens.map((t, i) => (
         <span key={i} aria-hidden>
           {t.br && <br />}
