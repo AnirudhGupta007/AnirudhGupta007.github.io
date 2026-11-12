@@ -6,7 +6,7 @@ export const links = {
   phoneHref: 'tel:+919813724305',
   whatsapp: 'https://wa.me/919813724305',
   // Paste the Google Drive share link here; the Resume buttons appear once it is set.
-  resume: 'https://drive.google.com/uc?export=download&id=1dP-wODlYYSpsmZu4krWdMZvFB3ZLDbov',
+  resume: 'https://drive.google.com/uc?export=download&id=19mPkpfNUnwjMqRbuOYdAcYnwfk9nnSae',
   linkedin: 'https://www.linkedin.com/in/anirudhgupta00',
   github: 'https://github.com/AnirudhGupta007',
 }
