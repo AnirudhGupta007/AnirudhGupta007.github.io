@@ -146,50 +146,74 @@ function Projects() {
   )
 }
 
+// Numbers in a bullet (43%, 89% to 100%, $3,450, 599, 1,000+, 2s) are shown as brass highlights.
+const NUM = /((?<![A-Za-z0-9.,\-])~?\$?\d[\d,.]*(?:–\d[\d,.]*)?(?:%|\+|ms\b|s\b|M\b|K\b)?(?:\s(?:to|→)\s~?\$?\d[\d,.]*(?:%|\+)?)?(?![A-Za-z0-9]))/g
+function Highlight({ text }) {
+  return text.split(NUM).map((part, i) => (i % 2 ? <mark key={i}>{part}</mark> : part))
+}
+
 function Bullets({ items }) {
   return (
     <ul className="bullets">
       {items.map((p) => {
         const i = p.indexOf(': ')
-        return i > 0 && i < 48 ? <li key={p}><strong>{p.slice(0, i)}:</strong> {p.slice(i + 2)}</li> : <li key={p}>{p}</li>
+        return i > 0 && i < 48 ? (
+          <li key={p}><strong>{p.slice(0, i)}:</strong> <Highlight text={p.slice(i + 2)} /></li>
+        ) : (
+          <li key={p}><Highlight text={p} /></li>
+        )
       })}
     </ul>
   )
 }
 
 function Experience() {
+  const [main, ...interns] = work
   return (
     <section id="experience" className="section wrap">
       <Head label="Experience" parts={[{ text: 'Agents in production,', br: true }, { text: 'not in notebooks.', em: true }]} />
-      {work.map((job) => (
-        <motion.article className="job" key={job.company} {...reveal}>
-          <div className="job__meta">
-            <h3>{job.company}</h3>
-            <p>{job.role}</p>
-            <p className="muted">{job.period} · {job.place}</p>
+
+      <motion.article className="company" {...reveal}>
+        <header className="company__head">
+          <div>
+            <h3 className="company__name">{main.company}</h3>
+            <p className="company__role">{main.role}</p>
           </div>
-          <div className="job__body">
-            {job.products ? (
-              job.products.map((p) => (
-                <div className="product" key={p.name}>
-                  <h4>
-                    {p.name} <span>{p.tagline}</span>
-                  </h4>
-                  {p.intro && <p className="product__intro">{p.intro}</p>}
-                  <Bullets items={p.points} />
-                  {p.url && (
-                    <a href={p.url} target="_blank" rel="noreferrer" className="textlink product__link">
-                      {p.url.replace(/https?:\/\/|\/$/g, '')} ↗
-                    </a>
-                  )}
-                </div>
-              ))
-            ) : (
-              <Bullets items={job.points} />
-            )}
-          </div>
-        </motion.article>
-      ))}
+          <p className="company__when">{main.period} · {main.place}</p>
+        </header>
+        <div className="products">
+          {main.products.map((p) => (
+            <div className={`product ${p.intro ? 'product--lead' : ''}`} key={p.name}>
+              <div className="product__head">
+                <h4>{p.name}</h4>
+                <span className="product__tag">{p.tagline}</span>
+              </div>
+              {p.intro && <p className="product__intro">{p.intro}</p>}
+              <Bullets items={p.points} />
+              {p.url && (
+                <a href={p.url} target="_blank" rel="noreferrer" className="textlink product__link">
+                  {p.url.replace(/https?:\/\/|\/$/g, '')} ↗
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </motion.article>
+
+      <div className="interns">
+        {interns.map((job) => (
+          <motion.article className="company company--small" key={job.company} {...reveal}>
+            <header className="company__head">
+              <div>
+                <h3 className="company__name">{job.company}</h3>
+                <p className="company__role">{job.role}</p>
+              </div>
+              <p className="company__when">{job.period} · {job.place}</p>
+            </header>
+            <Bullets items={job.points} />
+          </motion.article>
+        ))}
+      </div>
     </section>
   )
 }
