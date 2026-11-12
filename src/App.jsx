@@ -147,9 +147,18 @@ function Projects() {
 }
 
 // Numbers in a bullet (43%, 89% to 100%, $3,450, 599, 1,000+, 2s) are shown as brass highlights.
-const NUM = /((?<![A-Za-z0-9.,\-])~?\$?\d[\d,.]*(?:–\d[\d,.]*)?(?:%|\+|ms\b|s\b|M\b|K\b)?(?:\s(?:to|→)\s~?\$?\d[\d,.]*(?:%|\+)?)?(?![A-Za-z0-9]))/g
+// No lookbehind here: older iPhone Safari (iOS < 16.4) can't parse it and the whole page would fail.
+const NUM = /(^|[^A-Za-z0-9.,\-])(~?\$?\d[\d,.]*(?:–\d[\d,.]*)?(?:%|\+|ms\b|s\b|M\b|K\b)?(?:\s(?:to|→)\s~?\$?\d[\d,.]*(?:%|\+)?)?)(?![A-Za-z0-9])/g
 function Highlight({ text }) {
-  return text.split(NUM).map((part, i) => (i % 2 ? <mark key={i}>{part}</mark> : part))
+  const out = []
+  let last = 0
+  for (const m of text.matchAll(NUM)) {
+    const start = m.index + m[1].length
+    out.push(text.slice(last, start), <mark key={start}>{m[2]}</mark>)
+    last = start + m[2].length
+  }
+  out.push(text.slice(last))
+  return out
 }
 
 function Bullets({ items }) {
