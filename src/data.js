@@ -149,7 +149,7 @@ export const projects = [
 export const facts = [
   { value: '599', label: 'tools across 238 apps on the MCP server I built' },
   { value: '89% → 100%', label: 'correct-tool rate after replacing LLM tool picking' },
-  { value: '4', label: 'side projects shipped end to end' },
+  { value: '5', label: 'side projects built end to end' },
 ]
 
 export const stack = [
